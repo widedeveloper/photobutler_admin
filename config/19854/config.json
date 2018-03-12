@@ -1,0 +1,43 @@
+{
+   
+	"tipcontents" : [		
+			"Automatically share your own pictures for a chance to be feature on the Red Sox social media.",		
+			"View photos from behind the scenes taken by the Red Sox photographers.",		
+			"Download photos straight to your phone or share directly to social media using #SoxWinterWeekend."
+	],	
+	
+	"title" : "Winter Weekend 2018",
+	"subtitle" : "Event Highlights",
+	"imageUrl" : "/data/sidebar_image.png",
+	
+	"sidebarSetting" : {
+		"sideStatus" : "on",
+		"mode" : "static",
+		"slidesIn" : 20,
+		"stays" : 10,
+		"titleColor" : "#c62033",
+		"subColor" : "#617185",		
+		"indicatorColor": "#ff0",
+		"tipColor" : "#fff",
+		"topBackColor":"#fff",
+		"bottomBackColor" : "#3a5375",
+		"logoWidth": 80
+	},
+	"bottombarSetting": {
+		"bottombarStatus" : "on",
+		"bottomUrl" : "/data/brand_carousel.png",
+		"titleColor" : "#fff",
+		"subColor" : "#ccc",
+		"backgroundColor" : "#3a5375"
+	},
+	"preimageSetting" : {
+		"prebarStatus":"off"
+	},
+	"logoSetting": {
+		"logoStatus" : "on",
+		"logoUrl" : "/data/bottom-left1.png"
+	}
+		
+	
+	
+}
