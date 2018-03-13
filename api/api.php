@@ -95,11 +95,10 @@ class API
             $this->stream_id = $photo_stream;
             
             try {
-                // Pull photostream data from API endpoint
-				
+                // Pull photostream data from API endpoint				
 				
 				$result = $this->authRequest();
-				var_dump($result."ddddddddddddddddddddd<br>");
+				var_dump($result."<br>"); exit;
 				
                 $response = $this->sendRequest();
                 
@@ -193,8 +192,9 @@ class API
 		curl_setopt($ch, CURLOPT_HTTPHEADER, 
             array(
                 "Cache-Control: no-cache",
-                "Content-Type: application/json",
-				"userId: {$this->userid}",
+                "Content-Type: application/x-www-form-urlencoded",
+				'Accept: application/json',
+				// "userId: {$this->userid}",
                 "pbtoken: {$this->pbtoken}",
                 "pbId: {$this->pbid}",			
             )
@@ -202,17 +202,17 @@ class API
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         // curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, '{"psId": ' . $this->stream_id .',"userId": ' . $this->userid . ',"regcode":zsb8pt}' ); // JSON
+        curl_setopt($ch, CURLOPT_POSTFIELDS, '{"userId":6072,"regcode":"zsb8pt"}' ); // JSON
         curl_setopt($ch, CURLOPT_URL, $this->auth_url);
         curl_setopt($ch, CURLOPT_VERBOSE, true);  
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
 
         $response = curl_exec($ch);
         $response = json_decode($response, true);
-        // echo "<pre>";
-        // print_r( $response );
-        // echo "</pre>";
-		// echo curl_error($ch);
+        echo "<pre>";
+        print_r( $response );
+        echo "</pre>";
+		echo curl_error($ch);
 	}
     private function sendRequest() {
 
