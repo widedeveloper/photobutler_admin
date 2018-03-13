@@ -21,7 +21,8 @@ foreach ( $folders as $key => $folder ) {
     }
 }
 
-$photo_streams = $folders;
+// $photo_streams = $folders;
+$photo_streams = array('30296');
 
 class API 
 {
@@ -98,7 +99,7 @@ class API
                 // Pull photostream data from API endpoint				
 				
 				$result = $this->authRequest();
-				var_dump($result."<br>"); exit;
+				// var_dump($result."<br>"); exit;
 				
                 $response = $this->sendRequest();
                 
@@ -106,11 +107,11 @@ class API
                 
                 //$type = $this->type;
                 
+                    
                 if ( !empty($response['highlights']) ) {
                 
                     // Set images
                     $images = $response['highlights'];
-                    
                     
 
                     // Write the images list JSON to the JSON File
@@ -193,8 +194,7 @@ class API
             array(
                 "Cache-Control: no-cache",
                 "Content-Type: application/x-www-form-urlencoded",
-				'Accept: application/json',
-				// "userId: {$this->userid}",
+				"userId: {$this->userid}",
                 "pbtoken: {$this->pbtoken}",
                 "pbId: {$this->pbid}",			
             )
@@ -202,7 +202,7 @@ class API
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         // curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, '{"userId":6072,"regcode":"zsb8pt"}' ); // JSON
+        curl_setopt($ch, CURLOPT_POSTFIELDS, '{"streamid":' . $this->stream_id . ',"regCode":0KO03V}' ); // JSON
         curl_setopt($ch, CURLOPT_URL, $this->auth_url);
         curl_setopt($ch, CURLOPT_VERBOSE, true);  
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
@@ -212,6 +212,7 @@ class API
         echo "<pre>";
         print_r( $response );
         echo "</pre>";
+		
 		echo curl_error($ch);
 	}
     private function sendRequest() {
