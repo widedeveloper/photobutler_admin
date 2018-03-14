@@ -409,7 +409,7 @@ function imageupload(imagekind) {
 			if(data.status=="success" || data.status=="exist") {
 				uploadButton.innerHTML = '<i class="fa fa-upload"></i>Upload';
 				$(inputOjb).val(data.url);
-				ExistImage.attr('src',"."+data.url);
+				ExistImage.attr('src',data.url);
 				ExistImgDiv.css('display','block')
 				UploadArea.css("display","none");
 				divObj.css('display','none')
