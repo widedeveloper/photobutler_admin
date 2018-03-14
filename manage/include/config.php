@@ -3,11 +3,11 @@
 <?php
 define('ADMIN','admin');
 define('PASSWORD','photobutler_2018!');
-// define('PATH','/var/www/html/config');
-// define('UPLOADPATH','/var/www/html/uploads');
+define('PATH','/var/www/html/config');
+define('UPLOADPATH','/var/www/html/uploads');
 
-define('PATH','G:\MY_WORK\2017-2018_ROB_TASK\2018-01-6 vue.js(slideshow)\Work\vuejs_photoslides\dist\config');
-define('UPLOADPATH','G:\MY_WORK\2017-2018_ROB_TASK\2018-01-6 vue.js(slideshow)\Work\vuejs_photoslides\dist\uploads');
+// define('PATH','G:\MY_WORK\2017-2018_ROB_TASK\2018-01-6 vue.js(slideshow)\Work\vuejs_photoslides\dist\config');
+// define('UPLOADPATH','G:\MY_WORK\2017-2018_ROB_TASK\2018-01-6 vue.js(slideshow)\Work\vuejs_photoslides\dist\uploads');
 
 
 // Load configs
