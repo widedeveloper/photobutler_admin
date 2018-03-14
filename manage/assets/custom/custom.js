@@ -2,8 +2,14 @@
 
 function view_modal (streamID) {
 	if(streamID == 'new'){
+
 		display_modal()
 		$("#streamID").prop('disabled',false);
+		
+		//Disable Config area when register new regCode and StreamId
+		$('.streamConfig').find('input, textarea, button').prop('disabled', true);
+		$(".saveConfigBtn").prop('disabled', true);
+		$(".streamConfig").addClass('newReg');
 	} else {
 		// $.get( "../../../app/ajax.php?method=tipjson&param=" + streamID, function( data ) {
 			$.get( "/app/ajax.php?method=tipjson&param=" + streamID, function( data ) {
@@ -62,6 +68,12 @@ function clear_config() {
 	$(".logofiles").css("display","none");
 	$("#logofiles_exist").css('display','none')
 	$("#logofiles_existImg").attr('src','');
+
+	$('.streamConfig').find('input, textarea, button').prop('disabled', false);
+	$(".saveConfigBtn").prop('disabled', false);
+	$(".streamConfig").removeClass('newReg')
+	$("#regCode").prop('disabled', false);
+	// saveConfigBtn
 }
 
 //-------------------edit config---------------------//
@@ -77,10 +89,15 @@ function display_config(data, streamID) {
 	var preimageSetting = data.preimageSetting;
 	var logoSetting = data.logoSetting;
 
+	//regCode
+	var regCode = data.regCode;
+
 
 	$("#streamID").val(streamID);
 	if(streamID != 'new'){
 		$("#streamID").prop('disabled',true);
+		$("#regCode").prop('disabled', true);
+		$("#regCode").val(regCode);
 	}
 	$("#sidebarTitle").val(sidebarTitle);
 	$("#sidebarSubTitle").val(sidebarSubTitle);
@@ -410,8 +427,18 @@ function imageupload(imagekind) {
 
 	});
 
-
-	// <i class="fa fa-upload"></i>Upload
-  
+	// <i class="fa fa-upload"></i>Upload 
    
+}
+
+
+//register streamID 
+
+function register_stream() {
+	alert();
+	$('.streamConfig').find('input, textarea, button').prop('disabled', false);
+	$(".saveConfigBtn").prop('disabled', false);
+	if($(".streamConfig").hasClass('newReg')){
+		$(".streamConfig").removeClass('newReg')
+	}
 }
