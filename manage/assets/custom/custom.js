@@ -96,7 +96,7 @@ function display_config(data, streamID) {
 	$("#streamID").val(streamID);
 	if(streamID != 'new'){
 		$("#streamID").prop('disabled',true);
-		$("#regCode").prop('disabled', true);
+		// $("#regCode").prop('disabled', true);
 		$("#regCode").val(regCode);
 	}
 	$("#sidebarTitle").val(sidebarTitle);
@@ -285,13 +285,15 @@ function remove_stream (streamID) {
 
 function save_data() {
 	var streamid = $("#streamID").val();
+	var regCode = $("#regCode").val();
 	// console.log($("#modalForm").serializeArray())
 	$("#modalForm").validate({ errorPlacement: function(error, element) {} });
 	if(!$("#modalForm").valid()){
 		$("#modalForm").valid()
 	} else {	
 		// $.post( "../../include/config.php?method=savejson", $("#modalForm").serializeArray(),
-		$.post( "/manage/include/config.php?method=savejson&streamID="+streamid, $("#modalForm").serializeArray(),
+		$.post( "/manage/include/config.php?method=savejson&streamID="+streamid+ "&regCode=" + regCode,
+		$("#modalForm").serializeArray(),
 		function( data ) {
 			var respone_data = JSON.parse(data);
 			console.log(respone_data)
