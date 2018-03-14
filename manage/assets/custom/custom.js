@@ -425,20 +425,49 @@ function imageupload(imagekind) {
 			console.log("upload error: " + error.name + ": " + error.message);
 		}
 
-	});
-
-	// <i class="fa fa-upload"></i>Upload 
-   
+	});   
 }
 
 
 //register streamID 
 
 function register_stream() {
-	alert();
-	$('.streamConfig').find('input, textarea, button').prop('disabled', false);
-	$(".saveConfigBtn").prop('disabled', false);
-	if($(".streamConfig").hasClass('newReg')){
-		$(".streamConfig").removeClass('newReg')
+	if($("#regCode").val() =='' || $("#streamID").val() =='') {
+		alert("Please input StreamId or RegCode"); return false;
 	}
+
+	var streamID = $("#streamID").val();
+	var regCode = $("#regCode").val();
+
+	$.post( "/manage/include/config.php?method=registerCode&streamID="+ streamID + "&regCode=" + regCode, 
+	function( _data ) {
+		var data = JSON.parse(_data)
+		// console.log(typeof data )
+		
+		if(typeof data != 'undefined') {
+			if(data.success == true && data.psId) {
+				$("#streamID").val(data.psId);
+				$('.streamConfig').find('input, textarea, button').prop('disabled', false);
+				$(".saveConfigBtn").prop('disabled', false);
+				if($(".streamConfig").hasClass('newReg')){
+					$(".streamConfig").removeClass('newReg')
+				}
+			}else{
+				if(confirm("This stream is already added as contributor for this photo stream or not exist.")) {				
+					$('.streamConfig').find('input, textarea, button').prop('disabled', false);
+					$(".saveConfigBtn").prop('disabled', false);
+					if($(".streamConfig").hasClass('newReg')){
+						$(".streamConfig").removeClass('newReg')
+					}
+				}
+			}
+			
+		}else {
+			alert("Api server error !")
+			return false;
+		}
+	});
+
+
+
 }

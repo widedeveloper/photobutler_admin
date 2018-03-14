@@ -97,8 +97,7 @@ class API
             try {
                 // Pull photostream data from API endpoint				
 				
-				$result = $this->authRequest();
-				var_dump($result."<br>"); exit;
+				//$result = $this->authRequest();
 				
                 $response = $this->sendRequest();
                 

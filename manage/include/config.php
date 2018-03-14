@@ -9,9 +9,19 @@ define('UPLOADPATH','/var/www/html/uploads');
 // define('PATH','G:\MY_WORK\2017-2018_ROB_TASK\2018-01-6 vue.js(slideshow)\Work\vuejs_photoslides\dist\config');
 // define('UPLOADPATH','G:\MY_WORK\2017-2018_ROB_TASK\2018-01-6 vue.js(slideshow)\Work\vuejs_photoslides\dist\uploads');
 
+
+// Load configs
+require_once( __DIR__ . '../../../api/config/config.php');
+
 Class Admin {
+	
 	public function __construct() {
-		
+		 // Set variables	
+		 $this->userid        = _USERID;
+		 $this->pbid          = _PBID;
+		 $this->pbtoken       = _PBTOKEN;
+		 $this->hard_limit    = _HARD_LIMIT;
+		 $this->auth_url =  _AUTH_URL;
 	}
 	
 	public function admin_login($username, $password) {
@@ -27,14 +37,6 @@ Class Admin {
 		session_destroy();
 	}
 
-	public function get_streamData($streamID) {
-		
-	}
-
-	public function write_streamData($streamID) {
-
-	}
-
 	public static function delTree($dir) { 
 		$files = array_diff(scandir($dir), array('.','..')); 
 		foreach ($files as $file) { 
@@ -42,6 +44,52 @@ Class Admin {
 		} 
 		return rmdir($dir); 
 	} 
+
+	//register Stream 
+	public static function registerRequest($streamID, $regCode) {
+		// 	var_dump($regCode);echo "<br>";
+		// var_dump(_USERID);echo "<br>";
+		
+		// exit;
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_HTTPHEADER, 
+            array(
+                "Cache-Control: no-cache",
+                "Content-Type: application/x-www-form-urlencoded",
+				"userId: "._USERID."",
+                "pbtoken: "._PBTOKEN."",
+                "pbId: "._PBID."",			
+            )
+        );
+			
+		$fields = array(
+			'userId'=> _USERID,
+			'regCode'=>$regCode
+		);
+		$fields_string = '';
+		foreach($fields as $key=>$value) {
+			 $fields_string .= $key.'='.$value.'&';
+		 }
+		rtrim($fields_string,'&');
+		
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string ); // JSON
+        curl_setopt($ch, CURLOPT_URL, _AUTH_URL);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);  
+        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+
+        $response = curl_exec($ch);
+        $response = json_decode($response, true);
+        // echo "<pre>";
+        // print_r( $response );
+        // echo "</pre>";
+		
+		// echo curl_error($ch);
+		return $response;
+	}
+
+	//
 }
 if(isset($_GET["method"])&&$_GET["method"]=="removejson" ){
 	$streamId = $_GET['param'];
@@ -50,9 +98,8 @@ if(isset($_GET["method"])&&$_GET["method"]=="removejson" ){
 	// }
 	$admin = new Admin();
 	echo $admin->delTree(PATH."/". $streamId);
-
-
 }
+
 if(isset($_GET["method"])&&$_GET["method"]=="savejson" ){
 	// var_dump($_GET);
 	// var_dump($_POST);
@@ -193,6 +240,30 @@ if(isset($_GET["method"])&&$_GET["method"]=="imageupload" ){
 			echo json_encode($result);
 		}
 	}
+}
+
+if(isset($_GET["method"])&&$_GET["method"]=="registerCode" ){
+	$streamId = $_GET['streamID'];
+	$regCode = $_GET['regCode'];
+	
+	$folders = scandir(PATH);
+	foreach ( $folders as $key => $folder ) {
+		if ( is_numeric($folder) == false ) {
+			unset($folders[$key]);
+		}
+	}
+	$photo_streams = $folders;
+	if(in_array($streamId, $photo_streams)) {
+		echo json_encode("existStream");
+	} else {
+		$adminreg = new Admin();
+		$response = $adminreg->registerRequest($streamId, $regCode);
+		echo json_encode($response);
+	}
+	
+
+
+
 }
 
 	
