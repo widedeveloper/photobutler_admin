@@ -21,8 +21,7 @@ foreach ( $folders as $key => $folder ) {
     }
 }
 
-// $photo_streams = $folders;
-$photo_streams = array('30296');
+$photo_streams = $folders;
 
 class API 
 {
@@ -99,7 +98,7 @@ class API
                 // Pull photostream data from API endpoint				
 				
 				$result = $this->authRequest();
-				// var_dump($result."<br>"); exit;
+				var_dump($result."<br>"); exit;
 				
                 $response = $this->sendRequest();
                 
@@ -199,10 +198,21 @@ class API
                 "pbId: {$this->pbid}",			
             )
         );
+		
+		$fields = array(
+			'userId'=> $this->userid,
+			'regCode'=>'UCJV14'
+		);
+		$fields_string = '';
+		foreach($fields as $key=>$value) {
+			 $fields_string .= $key.'='.$value.'&';
+		 }
+		rtrim($fields_string,'&');
+		
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         // curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, '{"streamid":' . $this->stream_id . ',"regCode":0KO03V}' ); // JSON
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string ); // JSON
         curl_setopt($ch, CURLOPT_URL, $this->auth_url);
         curl_setopt($ch, CURLOPT_VERBOSE, true);  
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
