@@ -6,7 +6,7 @@
 	
 	<div class="modal-body1">
 		<form name="modalForm" id="modalForm" class="form-horizontal" action="" method="post" enctype="multipart/form-data">
-			
+			<section class="streamRegister">
 			<div class="row">
 				<div class="col-md-12">
 					<!-- BEGIN VALIDATION STATES-->
@@ -22,13 +22,28 @@
 										<div class="col-md-6">
 											<input type="text" required name="streamID" id="streamID" data-required="1" class="form-control" /> </div>
 									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3">Register Code
+										</label>
+										<div class="col-md-6">
+											<input type="text" required name="regCode" id="regCode" data-required="1" class="form-control" /> </div>
+									</div>
+
+									<div class="form-group">
+										
+										<div class="col-md-3" >
+										<button type="button" class="btn regcode-btn pull-right" onclick="register_stream()"  
+										style="background-color:#009fda !important; color:white !important">Register</button>
+									</div>
+
 								</div>
 							<!-- </form> -->
 						</div>
 					</div>
 				</div>
 			</div>
-
+			</section>
+			<section class="streamConfig" >
 			<div class="row">
 				<div class="col-md-12">
 					<!-- BEGIN VALIDATION STATES-->
@@ -524,14 +539,14 @@
 					<!-- END VALIDATION STATES-->
 				</div>
 			</div>
-			
+			</section>
 		</form>
 	</div>
 	
 	
 	<div class="modal-footer">
-		<button type="button" data-dismiss="modal" class="btn  " style="background-color:#000 !important; color:white !important" onclick="close_modal()">Close</button>
-		<button type="button" class="btn " onclick="save_data()" style="background-color:#009fda !important; color:white !important">Save changes</button>
+		<button type="button" data-dismiss="modal" class="btn"   style="background-color:#000 !important; color:white !important" onclick="close_modal()">Close</button>
+		<button type="button" class="btn saveConfigBtn" onclick="save_data()" style="background-color:#009fda !important; color:white !important">Save changes</button>
 	</div>
 </div>
 <style>
@@ -540,5 +555,8 @@
 }
 .form-md-radios>label{
 	color:#333 !important;
+}
+.streamConfig.newReg{
+	opacity:0.3
 }
 </style>

@@ -6,6 +6,9 @@ define('PASSWORD','photobutler_2018!');
 define('PATH','/var/www/html/config');
 define('UPLOADPATH','/var/www/html/uploads');
 
+// define('PATH','G:\MY_WORK\2017-2018_ROB_TASK\2018-01-6 vue.js(slideshow)\Work\vuejs_photoslides\dist\config');
+// define('UPLOADPATH','G:\MY_WORK\2017-2018_ROB_TASK\2018-01-6 vue.js(slideshow)\Work\vuejs_photoslides\dist\uploads');
+
 Class Admin {
 	public function __construct() {
 		
@@ -58,6 +61,8 @@ if(isset($_GET["method"])&&$_GET["method"]=="savejson" ){
 	$jsonObj->title = $_POST['sidebarTitle'];
 	$jsonObj->subtitle = $_POST['sidebarSubTitle'];
 	$jsonObj->imageUrl = $_POST['sidebarImgUrl'];
+	//regCode
+	$jsonObj->regCode = $_POST['regCode'];
 
 	$jsonObj->sidebarSetting = [
 		'sideStatus'=>$_POST['sidebarStatus'],
