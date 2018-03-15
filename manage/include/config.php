@@ -46,11 +46,8 @@ Class Admin {
 	} 
 
 	//register Stream 
-	public static function registerRequest($streamID, $regCode) {
-		// 	var_dump($regCode);echo "<br>";
-		// var_dump(_USERID);echo "<br>";
-		
-		// exit;
+	public static function registerRequest($regCode) {
+	
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_HTTPHEADER, 
             array(
@@ -76,6 +73,41 @@ Class Admin {
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string ); // JSON
         curl_setopt($ch, CURLOPT_URL, _AUTH_URL);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);  
+        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+
+        $response = curl_exec($ch);
+        $response = json_decode($response, true);       
+		return $response;
+	}
+
+	public static function valideStreamRequest($regCode) {
+	
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_HTTPHEADER, 
+            array(
+                "Cache-Control: no-cache",
+                "Content-Type: application/x-www-form-urlencoded",
+				"userId: "._USERID."",
+                "pbtoken: "._PBTOKEN."",
+                "pbId: "._PBID."",			
+            )
+        );
+			
+		$fields = array(
+			'userId'=> _USERID,
+			'regCode'=>$regCode
+		);
+		$fields_string = '';
+		foreach($fields as $key=>$value) {
+			 $fields_string .= $key.'='.$value.'&';
+		 }
+		rtrim($fields_string,'&');
+		
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string ); // JSON
+        curl_setopt($ch, CURLOPT_URL, _VALID_URL);
         curl_setopt($ch, CURLOPT_VERBOSE, true);  
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
 
@@ -244,17 +276,28 @@ if(isset($_GET["method"])&&$_GET["method"]=="registerCode" ){
 		}
 	}
 	$photo_streams = $folders;
+
 	if(in_array($streamId, $photo_streams)) {
-		echo json_encode("existStream");
+		echo json_encode("existStream"); 
 	} else {
-		$adminreg = new Admin();
-		$response = $adminreg->registerRequest($streamId, $regCode);
-		echo json_encode($response);
+		$adminreg = new Admin();		
+		$response = $adminreg->valideStreamRequest($regCode);		
+		
+		if($response!=null && $response['psId']) {
+		
+			$validStream = $response['psId'];
+			$result = $adminreg->registerRequest($regCode);				
+			if($result['success']) {
+				echo json_encode($result);
+			}else{
+				$result['psId'] = $validStream ;			
+				echo json_encode($result);
+			}
+			
+		}else {
+			echo json_encode("fakeCode");
+		}
 	}
-	
-
-
-
 }
 
 	

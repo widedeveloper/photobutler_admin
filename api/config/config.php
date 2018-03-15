@@ -10,3 +10,4 @@ define('_HARD_LIMIT', 300);
 define('_URL', 'http://devjs.photobutler.com/v2/s/getPSPhotosV3/');
 define('_IMAGE_URL', 'http://services-dev.photobutler.com/photobutler_v1.6.1/PhotoStream/GetPSPhoto/');
 define('_AUTH_URL', 'http://services-dev.photobutler.com/photobutler_v1.6.1/PhotoStream/RegisterPsUser/');
+define('_VALID_URL','http://services-dev.photobutler.com/photobutler_v1.6.1/PhotoStream/GetPSBasicInfo/');

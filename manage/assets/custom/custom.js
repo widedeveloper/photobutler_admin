@@ -434,8 +434,8 @@ function imageupload(imagekind) {
 //register streamID 
 
 function register_stream() {
-	if($("#regCode").val() =='' || $("#streamID").val() =='') {
-		alert("Please input StreamId or RegCode"); return false;
+	if($("#regCode").val() =='') {
+		alert("Please input RegCode"); return false;
 	}
 
 	var streamID = $("#streamID").val();
@@ -445,17 +445,33 @@ function register_stream() {
 	function( _data ) {
 		var data = JSON.parse(_data)
 		// console.log(typeof data )
-		
+	
 		if(typeof data != 'undefined') {
-			if(data.success == true && data.psId) {
-				$("#streamID").val(data.psId);
-				$('.streamConfig').find('input, textarea, button').prop('disabled', false);
-				$(".saveConfigBtn").prop('disabled', false);
-				if($(".streamConfig").hasClass('newReg')){
-					$(".streamConfig").removeClass('newReg')
+
+			if(data == 'fakeCode') {
+				alert("Failed! The photostream id does not exist.");
+				$("#streamID").val('');
+				$('.streamConfig').find('input, textarea, button').prop('disabled', true);
+				$(".saveConfigBtn").prop('disabled', true);
+
+			}else if(data == 'existStream'){
+				alert("You already added this photostream Config. Please edit")	;
+				$("#streamID").val('');
+				$('.streamConfig').find('input, textarea, button').prop('disabled', true);
+				$(".saveConfigBtn").prop('disabled', true);
+
+			}else if(data.success == true && data.psId) {
+				if(confirm("Sucess!")) {	
+					$("#streamID").val(data.psId);
+					$('.streamConfig').find('input, textarea, button').prop('disabled', false);
+					$(".saveConfigBtn").prop('disabled', false);
+					if($(".streamConfig").hasClass('newReg')){
+						$(".streamConfig").removeClass('newReg')
+					}
 				}
 			}else{
-				if(confirm("This user is already added to this photostream id, or the photostream id does not exist.")) {				
+				if(confirm("This user is already added to this photostream id.")) {		
+					$("#streamID").val(data.psId);		
 					$('.streamConfig').find('input, textarea, button').prop('disabled', false);
 					$(".saveConfigBtn").prop('disabled', false);
 					if($(".streamConfig").hasClass('newReg')){
