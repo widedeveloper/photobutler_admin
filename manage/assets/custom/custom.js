@@ -455,7 +455,7 @@ function register_stream() {
 					$(".streamConfig").removeClass('newReg')
 				}
 			}else{
-				if(confirm("This stream is already added as contributor for this photo stream or not exist.")) {				
+				if(confirm("This user is already added to this photostream id, or the photostream id does not exist.")) {				
 					$('.streamConfig').find('input, textarea, button').prop('disabled', false);
 					$(".saveConfigBtn").prop('disabled', false);
 					if($(".streamConfig").hasClass('newReg')){

@@ -80,12 +80,7 @@ Class Admin {
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
 
         $response = curl_exec($ch);
-        $response = json_decode($response, true);
-        // echo "<pre>";
-        // print_r( $response );
-        // echo "</pre>";
-		
-		// echo curl_error($ch);
+        $response = json_decode($response, true);       
 		return $response;
 	}
 
@@ -93,16 +88,12 @@ Class Admin {
 }
 if(isset($_GET["method"])&&$_GET["method"]=="removejson" ){
 	$streamId = $_GET['param'];
-	// if(is_dir(PATH."/". $streamId) === true ) {
-    //     echo rmdir(PATH."/".$streamId);
-	// }
 	$admin = new Admin();
 	echo $admin->delTree(PATH."/". $streamId);
 }
 
 if(isset($_GET["method"])&&$_GET["method"]=="savejson" ){
-	// var_dump($_GET);
-	// var_dump($_POST);
+	
 	$jsonObj= new stdClass();
 	$jsonObj->tipcontents = $_POST['tipContents'];
 	$jsonObj->title = $_POST['sidebarTitle'];
